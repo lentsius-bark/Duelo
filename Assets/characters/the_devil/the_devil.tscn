@@ -1,0 +1,108 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/characters/the_devil/the_devil.gd" type="Script" id=1]
+[ext_resource path="res://Assets/characters/the_devil/the_devil_script.gd" type="Script" id=2]
+[ext_resource path="res://Assets/characters/the_devil/the_devil_prep_model.tscn" type="PackedScene" id=3]
+
+[sub_resource type="CapsuleShape" id=1]
+
+radius = 0.421872
+height = 2.18949
+
+[node name="the_devil_character" type="Spatial"]
+
+script = ExtResource( 1 )
+
+[node name="the_devil" type="KinematicBody" parent="." index="0"]
+
+input_ray_pickable = true
+input_capture_on_drag = false
+collision_layer = 1
+collision_mask = 1
+axis_lock_linear_x = false
+axis_lock_linear_y = false
+axis_lock_linear_z = false
+axis_lock_angular_x = false
+axis_lock_angular_y = false
+axis_lock_angular_z = false
+collision/safe_margin = 0.001
+script = ExtResource( 2 )
+_sections_unfolded = [ "Collision" ]
+
+[node name="head" type="Spatial" parent="the_devil" index="0"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.94664, 0.058436 )
+
+[node name="devil_camera" type="Camera" parent="the_devil/head" index="0"]
+
+transform = Transform( -1, 0, -8.74228e-08, -2.85299e-08, 0.945251, 0.326344, 8.26365e-08, 0.326344, -0.945251, 0, 2.09412, -6.07395 )
+keep_aspect = 1
+cull_mask = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+doppler_tracking = 0
+projection = 0
+current = true
+fov = 70.0
+size = 1.0
+near = 0.05
+far = 100.0
+_sections_unfolded = [ "Transform" ]
+
+[node name="camera_cast" type="RayCast" parent="the_devil/head" index="1"]
+
+enabled = true
+exclude_parent = true
+cast_to = Vector3( 0, 2.09412, -6.07395 )
+collision_mask = 1
+
+[node name="capsule_collision_shape" type="CollisionShape" parent="the_devil" index="1"]
+
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.54118, 0 )
+shape = SubResource( 1 )
+disabled = false
+_sections_unfolded = [ "Transform" ]
+
+[node name="the_devil_mesh" parent="the_devil" index="2" instance=ExtResource( 3 )]
+
+_sections_unfolded = [ "Transform" ]
+
+[node name="jump_timer" type="Timer" parent="the_devil" index="3"]
+
+process_mode = 1
+wait_time = 2.0
+one_shot = true
+autostart = false
+
+[node name="slam_timer" type="Timer" parent="the_devil" index="4"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[node name="no_moving_timer" type="Timer" parent="the_devil" index="5"]
+
+process_mode = 1
+wait_time = 2.0
+one_shot = true
+autostart = false
+
+[node name="slam_cast" type="RayCast" parent="the_devil" index="6"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00884867, -0.155983, 0 )
+enabled = true
+exclude_parent = true
+cast_to = Vector3( 0, 1, 0 )
+collision_mask = 1
+
+[connection signal="hide_time" from="the_devil" to="." method="_on_hide_time"]
+
+[connection signal="super_action_name" from="the_devil" to="." method="_on_super_action_executed"]
+
+[connection signal="waiting" from="the_devil" to="." method="_on_waiting_change"]
+
+[connection signal="timeout" from="the_devil/jump_timer" to="the_devil" method="_on_jump_timer_timeout"]
+
+
