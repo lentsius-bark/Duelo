@@ -1,2 +1,1 @@
-# Duelo
-Komputila ludo de diabloj
+# godot-plugin
